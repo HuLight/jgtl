@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>选择数据</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="/static/X-admin/css/font.css">
+    <link rel="stylesheet" href="/static/X-admin/css/xadmin.css">
+    <script src="/static/X-admin/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/X-admin/js/xadmin.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <style type="text/css">
+        .layui-table td, .layui-table th {
+            min-width: 0;
+        }
+
+    </style>
+</head>
+<body id="{{ group }}">
+{#<div class="x-nav">#}
+{#    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"#}
+{#       onclick="location.reload()" title="刷新">#}
+{#        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>#}
+{#</div>#}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                </div>
+                <div class="layui-card-body ">
+                    <form>
+                        <table class="layui-table layui-form" id="get_host">
+                            <thead>
+                            <tr>
+                                <th><input type="checkbox" lay-skin="primary" onclick="itemSelect(this)"></th>
+                                <th>分类</th>
+                                <th>设备</th>
+                                <th>选择</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for host in hosts %}
+
+                            <tr>
+                                <td style="width: 10px; min-width: 0"><input type="checkbox" lay-skin="primary" class="checkSelect"></td>
+                                <td><button id="selectEqiipment{{ forloop.counter }}" type="button">{{ host.1 }}</button></td>
+                                <td>hukai</td>
+                                <td>{{ host.0 }}</td>
+                            </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="layui-card-body ">
+                    <div class="page">
+                        <div>
+                            <a class="prev" href="">&lt;&lt;</a>
+                            <a class="num" href="">1</a>
+                            <span class="current">2</span>
+                            <a class="num" href="">3</a>
+                            <a class="num" href="">666</a>
+                            <a class="next" href="">&gt;&gt;</a>
+                            <button class="layui-btn" style="height: 36px; margin-left:20px;" onclick="ck()">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use(['laydate', 'form'], function () {
+        var laydate = layui.laydate;
+        var form = layui.form;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+    });
+
+    /*用户-停用*/
+    function member_stop(obj, id) {
+        layer.confirm('确认要停用吗？', function (index) {
+
+            if ($(obj).attr('title') == '启用') {
+
+                //发异步把用户状态进行更改
+                $(obj).attr('title', '停用')
+                $(obj).find('i').html('&#xe62f;');
+
+                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+                layer.msg('已停用!', {icon: 5, time: 1000});
+
+            } else {
+                $(obj).attr('title', '启用')
+                $(obj).find('i').html('&#xe601;');
+
+                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                layer.msg('已启用!', {icon: 5, time: 1000});
+            }
+
+        });
+    }
+
+    /*用户-删除*/
+    function member_del(obj, id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            //发异步删除数据
+            $(obj).parents("tr").remove();
+            layer.msg('已删除!', {icon: 1, time: 1000});
+        });
+    }
+
+
+    function delAll(argument) {
+
+        var data = tableCheck.getData();
+
+        layer.confirm('确认要删除吗？' + data, function (index) {
+            //捉到所有被选中的，发异步进行删除
+            layer.msg('删除成功', {icon: 1});
+            $(".layui-form-checked").not('.header').parents('tr').remove();
+        });
+    }
+</script>
+<script>var _hmt = _hmt || [];
+(function () {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();</script>
+<script>
+    function ck() {
+        var tbodyObj = document.getElementById('tbodyID');
+        $("table :checkbox").each(function (key, value) {
+            if ($(value).prop('checked')) {
+                alert(tbodyObj.rows[key].cells[1].innerHTML);
+                alert(tbodyObj.rows[key].cells[2].innerHTML);
+            }
+        })
+    }
+</script>
+<script>
+    function ck() {
+        var hosts = [];
+        var tbodyObj = document.getElementById('get_host');
+        $("table :checkbox").each(function (key, value) {
+            if ($(value).prop('checked')) {
+                hosts.push(tbodyObj.rows[key].cells[1].innerHTML);
+            }
+        });
+        var group = $('body').attr('id');
+        var info = {'hosts': hosts, 'group':group};
+        if(hosts.length==0){
+            alert('数据不能为空！')
+        }else{
+                $.ajax({
+                url: 'http://127.0.0.1:8000/ralationship/',
+                type: 'post',
+                dataType: 'json',
+                data: JSON.stringify(info),
+                success:function (data) {
+                    if (data['status'] == 3) {
+                    alert('提交数据为空！')
+                }else{
+                    alert('数据提交成功！')
+                }
+                }
+            })
+        }
+    }
+    function itemSelect(a)
+    {
+        //找到下面所有的复选框
+        var ck =document.getElementsByClassName("checkSelect");
+
+        //遍历所有复选框，设置选中状态。
+        for(var i=0;i<ck.length;i++)
+        {
+            if(a.checked)//判断全选按钮的状态是不是选中的
+            {
+                ck[i].setAttribute("checked","checked");//如果是选中的，就让所有的状态为选中。
+            }
+            else
+            {
+                ck[i].removeAttribute("checked");//如果不是选中的，就移除所有的状态是checked的选项。
+            }
+        }
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+            $('.layui-table button').click(function () {
+            var buttonvalue = $(this).html();
+            var display_value = '';
+            var obj = $(this);
+            var tab = '<table class="layui-table layui-form" id="get_host">';
+            $.ajax({
+                url:"http://127.0.0.1:8000/config/equipment/",
+                type:'post',
+                dataType:'json',
+                data:JSON.stringify({'subject':buttonvalue}),
+                success:function (data) {
+                    $.each(data,function (index, value) {
+                        $.each(value,function (k, v) {
+                            display_value += '<tr><td><input type="checkbox" lay-skin="primary" class="checkSelect">' +
+                                '<div class="layui-unselect layui-form-checkbox" lay-skin="primary" id="clickid" onclick="selectcheck"><i class="layui-icon ' +
+                                'layui-icon-ok"></i></div></td><td>' + v + '</td></tr>'
+                        })
+                    });
+{#                    obj.parent().next().html(tab + display_value + '</table>');#}
+                        obj.parent().next().html(display_value)
+                }
+            });
+        });
+
+{#        设置host的选中状态#}
+    });
+
+</script>
+<script>
+     function selectcheck(){
+        }
+
+</script>
+</html>

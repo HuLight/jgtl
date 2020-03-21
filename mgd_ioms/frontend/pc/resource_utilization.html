@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <!-- 若您需要使用Kendo UI Professional，请联系版权人获得合法的授权或许可。 -->
+    <!-- Bootstrap css -->
+    <link href="../../static/js/bklib/bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <!-- kendo ui css -->
+    <link href="../../static/js/bklib/kendoui-2015.2.624/styles/kendo.common.min.css" rel="stylesheet">
+    <link href="../../static/js/bklib/kendoui-2015.2.624/styles/kendo.default.min.css" rel="stylesheet">
+    <!-- font-awesome -->
+    <link href="../../static/js/bklib/fontawesome-4.3.0/css/font-awesome.css" rel="stylesheet">
+    <!--蓝鲸提供的公用样式库 -->
+    <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+    <script src="../../static/js/bklib/jquery-1.10.2/jquery-1.10.2.min.js"></script>
+    <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="../../static/js/bklib/echarts-2.0/echarts-all.js"></script>
+    <script src="../../static/js/bklib/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <!-- 包括所有kendoui的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="../../static/js/bklib/kendoui-2015.2.624/js/kendo.all.min.js"></script>
+    <link href="../../static/js/bklib/bk-icon-2.0/bk-icon-2.0/iconfont.css" rel="stylesheet">
+    <link href="../../static/js/bklib/datatables-1.10.7/dataTables.bootstrap.css" rel="stylesheet"/>
+    <link href="../../static/js/bklib/css/bk.css" rel="stylesheet">
+    <script src="../../static/js/bklib/datatables-1.10.7/jquery.dataTables.js"></script>
+    <script src="../../static/js/bklib/datatables-1.10.7/dataTables.bootstrap.js"></script>
+    <link href="../../static/js/bklib/select2-3.5.2/select2-3.5.2/select2.css" rel="stylesheet">
+    <script src="../../static/js/bklib/select2-3.5.2/select2-3.5.2/select2.js"></script>
+    <link href="../../static/js/bklib/toastr-2.1.2/toastr-2.1.2/toastr.min.css" rel="stylesheet">
+    <script src="../../static/js/bklib/toastr-2.1.2/toastr-2.1.2/toastr.min.js"></script>
+    <script  src="../../static/X-admin/js/xadmin.js"></script>
+    <script src="../../static/X-admin/lib/layui/layui.all.js" charset="utf-8"></script>
+    <style>
+        .wrap{
+            width: 75px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            }
+        .wrap_value{
+            width: 60px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            }
+        .wrap_value1{
+            width: 50px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            }
+        .wrap_value2{
+            width: 68px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            }
+        .wrap_value3{
+            width: 70px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            }
+        .wrap_value4{
+            width: 92px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            }
+        .wrap_date{
+            width: 80px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            }
+        .group{
+            float: left;
+            margin-left: 14px;
+        }
+        .host{
+            float: left;
+            margin-left: 7px;
+        }
+        .ip{
+            float: left;
+            margin-left: 7px;
+        }
+        .cpu{
+            float: left;
+            margin-left: 7px;
+        }
+        .memory{
+            float: left;
+            margin-left: 7px;
+        }
+        .load{
+            float: left;
+        }
+        .getdata{
+            float: left;
+        }
+    </style>
+</head>
+<body class="bg-white" data-bg-color="bg-white">
+<div style="height: 10px"></div>
+<div class="king-page-box">
+    <div class="group">
+        <label>群组:</label>
+        <div class="plugin3_demo" id="plugin3_demo2" style="display:inline-block;">
+            <div class="select2-container select2_box select2-container-active" id="s2id_autogen3" style="width:135px;">
+                <a href="javascript:void(0)" class="select2-choice" tabindex="-1"> <span class="select2-chosen" id="select2-chosen-4">&nbsp;</span><abbr class="select2-search-choice-close"></abbr> <span class="select2-arrow" role="presentation"><b role="presentation"></b></span></a>
+                <label for="s2id_autogen4" class="select2-offscreen"></label>
+                <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-4" id="s2id_autogen4">
+            </div>
+            <input type="hidden" class="select2_box" style="width: 300px; display: none;" tabindex="-1" title="">
+        </div>
+    </div>
+    <div class="host">
+        <div class="form-group ">
+            <label>主机:</label>
+            <div class="plugin3_demo" id="plugin3_demo3" style="display:inline-block;">
+                <div class="select2-container select2_box select2-container-active" id="s2id_autogen5" style="width:135px;">
+                    <a href="javascript:void(0)" class="select2-choice" tabindex="-1"> <span class="select2-chosen" id="select2-chosen-5">&nbsp;</span><abbr class="select2-search-choice-close"></abbr> <span class="select2-arrow" role="presentation"><b role="presentation"></b></span></a>
+                    <label for="s2id_autogen5" class="select2-offscreen"></label>
+                    <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-5" id="s2id_autogen5">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ip">
+        <div class="form-group ">
+            <label>ip:</label>
+            <div class="plugin3_demo" id="plugin3_demo4" style="display:inline-block;">
+                <div class="select2-container select2_box select2-container-active" id="s2id_autogen6" style="width:125px;">
+                    <a href="javascript:void(0)" class="select2-choice" tabindex="-1"> <span class="select2-chosen" id="select2-chosen-6">&nbsp;</span><abbr class="select2-search-choice-close"></abbr> <span class="select2-arrow" role="presentation"><b role="presentation"></b></span></a>
+                    <label for="s2id_autogen6" class="select2-offscreen"></label>
+                    <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-6" id="s2id_autogen6">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="cpu">
+        <div class="form-group ">
+            <label>CPU(峰)%:</label>
+            <select class="form-control" id="cpuValue" style="width: 58px">
+                <option value="0"></option>
+                <option value="10">10%</option>
+                <option value="20">20%</option>
+                <option value="30">30%</option>
+                <option value="40">40%</option>
+                <option value="50">50%</option>
+                <option value="60">60%</option>
+                <option value="70">70%</option>
+                <option value="80">80%</option>
+            </select>
+        </div>
+    </div>
+    <div class="memory">
+        <div class="form-group ">
+            <label>内存(峰)%:</label>
+            <select class="form-control" id="memoryValue" style="width: 58px">
+                <option value="0"></option>
+                <option value="10">10%</option>
+                <option value="20">20%</option>
+                <option value="30">30%</option>
+                <option value="40">40%</option>
+                <option value="50">50%</option>
+                <option value="60">60%</option>
+                <option value="70">70%</option>
+                <option value="80">80%</option>
+            </select>
+        </div>
+    </div>
+    <div class="load">
+        <div class="form-group ">
+            <div class="col-xs-2">
+                <input type="button" class="king-btn-demo king-btn king-success" title="重置" onclick="gethostinfos('none','none','none','true')" value="重置">
+            </div>
+        </div>
+    </div>
+    <div class="getdata">
+        <div class="form-group ">
+            <div class="col-xs-2">
+                <input type="button"data-position="toast-top-center" class="plugin27_demo2 king-btn king-success mb15 mr100" id="plugin27_demo2" title="获取数据" onclick="getcurrentdata()" value="获取数据">
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mb0 ">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="king-instruction king-instruction-success" style="height: 30px">
+                    <p style="line-height:4px">数据说明：根据Zabbix<span>90天</span> 内的趋势数据进行统计，获取到主机使用率最高记录，点击“获取数据”可重新生成统计分析数据.</p>
+                </div>
+                <div style="height: 10px"></div>
+                <table id="table2_demo4" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="table2_demo4_info">
+                    <thead>
+                        <tr role="row">
+                            <th style="font-size: 10px">群组</th>
+                            <th style="font-size: 10px">主机</th>
+                            <th style="font-size: 10px">名称</th>
+                            <th  style="font-size: 10px">状态</th>
+                            <th  style="font-size: 10px">ip</th>
+                            <th style="font-size: 10px">cpu</th>
+                            <th style="font-size: 10px">cpu峰%</th>
+                            <th style="font-size: 10px">cpu平%</th>
+                            <th style="font-size: 10px">cpu谷%</th>
+                            <th style="font-size: 10px">内存</th>
+                            <th  style="font-size: 10px">内存峰%</th>
+                            <th   style="font-size: 10px">内存平%</th>
+                            <th  style="font-size: 10px">内存谷%</th>
+                            <th  style="font-size: 10px">磁盘空间</th>
+                            <th  style="font-size: 10px">磁盘已使用</th>
+                            <th  style="font-size: 10px">磁盘使用率%</th>
+                            <th  style="font-size: 10px">日期</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script  src="../../static/js/mgdapps/resource_utilization.js"></script>
+</html>

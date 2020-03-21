@@ -1,0 +1,53 @@
+#InputsWrapper{
+    width: 700px;
+    border: 1px solid #ebeef0;
+    display: inline-block;
+    padding: 5px;
+    position: relative;
+
+}
+input{
+    border: 1px solid #acbbc2;
+    color: #1f2c33;
+    background-color: #fff;
+    outline: 0;
+    padding: 0 5px;
+    min-height: 22px;
+}
+#doaway{
+    position: relative;
+    background-color: transparent;
+    border: none;
+    color: #0275b8;
+    font-size: inherit;
+    border-bottom: 1px dotted #0275b8;
+    padding: 0;
+    min-height: inherit;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+#doaway a{
+    text-decoration: none;
+}
+/*正常的未被访问过的链接*/
+#doaway a:link {
+    text-decoration: none;
+}
+/*已经访问过的链接*/
+#doaway a:visited {
+    text-decoration: none;
+}
+/*鼠标划过(停留)的链接*/
+#doaway a:hover {
+    text-decoration: none;
+}
+/* 正在点击的链接，鼠标在元素上按下还没有松开*/
+#doaway a:active {
+    text-decoration: none;
+}
+/* 获得焦点的时候 鼠标松开时显示的颜色*/
+#doaway a:focus {
+    text-decoration: none;
+
+}

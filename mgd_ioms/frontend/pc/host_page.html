@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<!-- Bootstrap css -->
+    <!-- kendo ui css -->
+    <link href="../../static/js/bklib/kendoui-2015.2.624/styles/kendo.common.min.css" rel="stylesheet">
+    <link href="../../static/js/bklib/kendoui-2015.2.624/styles/kendo.default.min.css" rel="stylesheet">
+    <!-- font-awesome -->
+    <link href="../../static/js/bklib/fontawesome-4.3.0/css/font-awesome.css" rel="stylesheet">
+    <!--蓝鲸提供的公用样式库 -->
+    <link href="../../static/js/bklib/css/bk.css" rel="stylesheet">
+    <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+    <script src="../../static/js/bklib/jquery-1.10.2/jquery-1.10.2.min.js"></script>
+    <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="../../static/js/bklib/echarts-2.0/echarts-all.js"></script>
+    <script src="../../static/js/bklib/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <!-- 包括所有kendoui的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="../../static/js/bklib/kendoui-2015.2.624/js/kendo.all.min.js"></script>
+
+    <link href="../../static/js/bklib/css/css-pro/bk.css" rel="stylesheet">
+<link href="../../static/js/bklib/css/iconfont.css" rel="stylesheet">
+<script src="../../static/js/bklib/bkDropdownMenu-1.0/bkDropdownMenu-1.0/js/bkDropdownMenu.js"></script>
+
+     <link rel="stylesheet" href="../../static/X-admin/css/font.css">
+        <link rel="stylesheet" href="../../static/X-admin/css/xadmin.css">
+    <link rel="stylesheet" href="../../static/X-admin/css/font.css">
+        <link rel="stylesheet" href="../../static/X-admin/css/xadmin.css">
+
+<style>
+    .layui-card{margin-bottom: 20px;margin-left: 20px;}
+    .div-memory{float: left;width: 45%;height: 300px;}
+    .div-traffic{float: left;width: 45%;height: 300px;}
+    .div-diskUtilization{float: left;width: 45%;height: 300px;}
+    .div-diskIO{float: left;width: 90%;height: 300px;}
+
+    .list-value{
+        float: left;
+        margin-left: 1.5%;
+    }
+    .clear{
+        clear:both;
+    }
+    .wrap{
+            width: 250px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            }
+
+</style>
+<body>
+<div class="king-content-wrap">
+    <div style="height: 10px"></div>
+            <div>
+
+                <div style="float: left">
+                    <label>主机: </label><span id="host" ></span>
+                </div>
+                <div class="list-value">
+                    <label>主机名: </label><span id="hostName" ></span>
+                </div>
+                <div class="list-value">
+                    <label>IP地址: </label><span id="ipAddress" ></span>
+                </div>
+                <div class="list-value">
+                    <label>OS类型: </label><span id="osType" ></span>
+                </div>
+                <div class="list-value">
+                    <label>运行时间: </label><span id="runTime" ></span>
+                </div>
+                <div class="list-value">
+                    <label>主机状态: </label><span id="hostStatus" ></span>
+                </div>
+            </div>
+            <div class="clear"></div>
+                <div class="king-tab tab-box ">
+                    <br>
+                    <div class="bk-dropdown-menu" id="bk-dropdown-menu4">
+
+                        <button class="bk-button bk-primary bk-dropdown-trigger">
+                            <span>显示时间</span>
+                            <i class="bk-icon icon-angle-down icon-flip"></i>
+                        </button>
+
+                        <div class="bk-dropdown-content left-align is-show" style="top: 39px;">
+                            <ul class="bk-dropdown-list">
+                                <li>
+                                    <a href="javascript:loadtime(0.5);"><i class="bk-icon icon-heart icon-flip"></i>最近半小时</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;loadtime(2)"><i class="bk-icon icon-heart icon-flip"></i>最近两小时</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;loadtime(168)"><i class="bk-icon icon-heart icon-flip"></i>最近7天</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;loadtime(360)"><i class="bk-icon icon-heart icon-flip"></i>最近15天</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-content ">
+                         <div class="layui-row layui-col-space15">
+
+                <div class="layui-col-sm12 layui-col-md6" style="width: 490px">
+                    <div class="layui-card" style="width: 480px">
+                        <div class="layui-card-body" style="height: 250px; width: 480px ;background-color: #FAFAFA">
+                            <div id="cpuUsage" class="layui-col-sm12" style="width: 480px;height: 100%"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6" style="width: 490px">
+                    <div class="layui-card" style="width: 480px">
+                        <div class="layui-card-body" style="height: 250px; width: 480px;background-color: #FAFAFA">
+                            <div id="memoryUsage" class="layui-col-sm12" style="height:100%;width: 480px"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6" style="width: 490px">
+                    <div class="layui-card" style="width: 480px">
+                        <div class="layui-card-body" style="height: 250px; width: 480px;background-color: #FAFAFA">
+                            <div id="networkTraffic" class="layui-col-sm12" style="height: 250px;width: 480px"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6" style="width: 490px">
+                    <div class="layui-card" style="width: 480px">
+                        <div class="layui-card-body" style="height: 250px; width: 480px;background-color: #FAFAFA">
+                            <div id="diskUtilization" class="layui-col-sm12" style="height: 250px;width: 480px"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6" style="width: 490px">
+                    <div class="layui-card" style="width: 480px">
+                        <div class="layui-card-body" style="height: 250px; width: 480px;background-color: #FAFAFA">
+                            <div id="diskIO" class="layui-col-sm12" style="height: 250px;width: 480px"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6" style="width: 490px">
+                    <div class="layui-card" style="width: 480px">
+                        <div class="layui-card-body" style="height: 250px; width: 480px;background-color: #FAFAFA">
+                            <div id="swap_in_out" class="layui-col-sm12" style="height: 250px;width: 480px"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md12" style="width: 950px">
+                    <div class="layui-card">
+                        <div class="layui-card-body" style="min-height: 250px;;background-color: #FAFAFA">
+                            <div id="process" class="layui-col-sm12" style="height: 250px; width: 940px">
+                                <div>
+                                            <h3 class="king-block-title" style="color:#00FFFF ;font-size: 20px">告警信息日志</h3>
+                                        </div>
+                                        <table class="table table-striped" >
+                                            <thead>
+                                                <tr>
+                                                         <th style="width: 5%;">#</th>
+                                                    <th style="width: 15%;">时间</th>
+                                                    <th style="width: 10%;">严重性</th>
+                                                    <th style="width: 10%;">恢复时间</th>
+                                                    <th style="width: 10%;">状态</th>
+                                                    <th style="width: 10%;">信息</th>
+                                                    <th style="width: 10%;">主机</th>
+                                                    <th style="width: 30%;">问题</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="warningMessage">
+
+                                            </tbody>
+                                        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                        <div class="tab-pane fade" id="demo2" style="">
+                            <div class="container-fluid mb0 ">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div style="height: 300px; position: relative;" id="chart_1576049539175" class="king-chart-box chart-line  k-chart" data-role="chart"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div style="height: 300px; position: relative;" id="chart_1576049541738" class="king-chart-box chart-line  k-chart" data-role="chart"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div style="height: 300px; position: relative;" id="chart_1576049543985" class="king-chart-box chart-line  k-chart" data-role="chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid mb0 ">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div style="height: 300px; position: relative;" id="chart_1576049548650" class="king-chart-box chart-line  k-chart" data-role="chart"></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div style="height: 300px; position: relative;" id="chart_1576049551522" class="king-chart-box chart-line  k-chart" data-role="chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="demo3" style="">
+                            <div class="container-fluid mb0 ">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div style="height: 300px; position: relative;" id="chart_1576049591018" class="king-chart-box chart-line  k-chart" data-role="chart"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div style="height: 300px; position: relative;" id="chart_1576049746411" class="king-chart-box chart-line  k-chart" data-role="chart"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div style="height: 300px; position: relative;" id="chart_1576049600681" class="king-chart-box chart-line  k-chart" data-role="chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid mb0 ">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div style="height: 300px; position: relative;" id="chart_1576049757636" class="king-chart-box chart-bar  k-chart" data-role="chart"></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div style="height: 300px; position: relative;" id="chart_1576049767040" class="king-chart-box chart-bar  k-chart" data-role="chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+</body>
+<script type="text/javascript">
+    $(function(){
+        hostid = getQueryString('hostid')
+        //commonLocalRefresh(hostid,0.5)
+    })
+    function loadtime(time){
+            //commonLocalRefresh(hostid,time)
+        }
+
+    //获取url中的hostid
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+        return unescape(r[2]);
+        }
+        return null;
+    }
+    $('#bk-dropdown-menu4').bkDropdown({
+            onInit: function(dropdown) {
+                $('#bk-dropdown-menu4').data('bkDropdown').hide();
+                // 自定义操作
+                dropdown.find('a').on('click', function() {
+                    dropdown.data('bkDropdown').hide();
+                    console.log("dropdown.data",dropdown.data('bkDropdown'))
+                });
+            },
+            onShow: function(dropdown) {
+                dropdown.find('.bk-icon').addClass('icon-flip');
+            },
+            onHide: function(dropdown) {
+                dropdown.find('.bk-icon').removeClass('icon-flip');
+            }
+        });
+</script>
+
+<script>
+    var dom1 = document.getElementById("cpuUsage");
+    var myChart1 = echarts.init(dom1);
+    option1 = null;
+    option1 = {
+        title: {
+            text: 'CPU趋势图',
+            textStyle: {
+                fontWeight: 'normal',
+                color: "#00FFFF",
+            },
+        },
+        legend: {
+            data:['CPU趋势图'],
+         },
+        tooltip: {
+            trigger: 'axis'
+        },
+        grid: {
+            width:"100%",
+            height:"auto",
+
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data : [''],
+            splitLine:{show:false},
+            axisLabel:{
+                rotate:45,
+            },
+
+
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel:{
+
+                 formatter:'{value}%'
+            }
+
+        },
+        series: [
+            {
+                name:'CPU趋势图',
+                type:'line',
+                stack: '百分比1',
+                data:[''],
+                smooth:true,
+                symbol: 'none',
+                itemStyle:{
+                    normal:{
+                        color:'#228B22'
+                    },
+                }
+            },
+        ]
+    };
+    if (option1 && typeof option1 === "object") {
+        myChart1.setOption(option1, true);
+    }
+
+        var dom2 = document.getElementById("memoryUsage");
+        var myChart2 = echarts.init(dom2);
+        var app = {};
+        option2 = null;
+        option2 = {
+            title: {
+                text: '内存使用率',
+                textStyle: {
+                    fontWeight: 'normal',
+                    color: "#00FFFF",
+                },
+            },
+            legend: {
+                data:['内存使用率'],
+             },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data : [''],
+                splitLine:{show:false},
+                axisLabel:{
+                    rotate:45,
+                }
+
+
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel:{
+                    formatter:'{value}%'
+                }
+
+            },
+            series: [
+                {
+                    name:'内存使用率',
+                    type:'line',
+                    stack: '百分比1',
+                    data:[''],
+                    smooth:true,
+                    symbol: 'none',
+                    itemStyle:{
+                        normal:{
+                            color:'#228B22'
+                        },
+
+                    }
+                },
+
+
+            ]
+        };
+        if (option2 && typeof option2 === "object") {
+            myChart2.setOption(option2, true);
+        }
+
+        var dom3 = document.getElementById("networkTraffic");
+        var myChart3 = echarts.init(dom3);
+        var app = {};
+        option3 = null;
+        option3 = {
+            title: {
+                text: '网卡流量',
+                textStyle: {
+                    fontWeight: 'normal',
+                    color: "#00FFFF",
+                },
+            },
+            legend: {
+                data:['出口流量','进口流量'],
+             },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data : [''],
+                splitLine:{show:false},
+                axisLabel:{
+                    rotate:45,
+                }
+
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel:{
+                    formatter:'{value}Kbps'
+                }
+
+            },
+            series: [
+                {
+                    name:'出口流量',
+                    type:'line',
+                    stack: '百分比1',
+                    data:[''],
+                    smooth:true,
+                    symbol: 'none',
+                },{
+                    name:'进口流量',
+                    type:'line',
+                    stack: '百分比1',
+                    data:[''],
+                    smooth:true,
+                    symbol: 'none',
+                },
+
+
+            ]
+        };
+        if (option3 && typeof option3 === "object") {
+            myChart3.setOption(option3, true);
+        }
+
+
+        var dom4 = document.getElementById("diskIO");
+        var myChart4 = echarts.init(dom4);
+        var app = {};
+        option4 = null;
+        option4 = {
+            title: {
+                text: '磁盘读写速率',
+                textStyle: {
+                    fontWeight: 'normal',
+                    color: "#00FFFF",
+                },
+            },
+            legend: {
+                data:['磁盘读速率','磁盘写速率'],
+             },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data : [''],
+                splitLine:{show:false},
+                axisLabel:{
+                    rotate:45,
+
+                }
+
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel:{
+                    interval:0,
+                    formatter:'{value}M'
+
+                }
+
+            },
+            series: [
+                {
+                    name:'磁盘读速率',
+                    type:'line',
+                    stack: '百分比1',
+                    data:[''],
+                    smooth:true,
+                    symbol: 'none',
+                },{
+                    name:'磁盘写速率',
+                    type:'line',
+                    stack: '百分比1',
+                    data:[''],
+                    smooth:true,
+                    symbol: 'none',
+                },
+
+
+            ]
+        };
+        if (option4 && typeof option4 === "object") {
+            myChart4.setOption(option4, true);
+        }
+
+        var dom6 = document.getElementById("diskUtilization");
+        var myChart6 = echarts.init(dom6);
+        option6 = null;
+        option6 = {
+            title: {
+                text: '磁盘使用率',
+                textStyle: {
+                    fontWeight: 'normal',
+                    color: "#00FFFF",
+                },
+            },
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                },
+                extraCssText: 'box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);', //添加阴影
+
+            },
+            legend: {
+                data: ['磁盘使用率']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis:  {
+                type: 'value',
+                min: "0",
+                max: "100",
+                splitLine:{show:false},
+                data:[""],
+                axisLabel:{
+                    interval:0,
+                    rotate:45,
+                    formatter:'{value}%'
+                }
+            },
+            yAxis: {
+                type: 'category',
+                data: [""],
+                smooth:true,
+                symbol: 'none',
+
+            },
+            series: [
+                {
+                    name: '',
+                    type: 'bar',
+                    stack: '总量',
+                    barWidth:30,
+                    label: {
+                        normal: {
+                            position: 'right',
+                            show: true
+                        }
+                    },
+
+                    data: [''],
+                    symbol: 'none',
+
+                    itemStyle:{
+                        normal:{
+                            color:function(params){
+                                if (params.data >50){
+                                    return '#FF4500'
+                                }else{
+                                    return '#228B22'
+                                }
+
+                            }
+                        },
+
+                    }
+                },
+
+
+            ]
+        }
+        if (option6 && typeof option6 === "object") {
+            myChart6.setOption(option6, true);
+        }
+
+        var dom7 = document.getElementById("swap_in_out");
+        var myChart7 = echarts.init(dom7);
+        option7 = null;
+        option7 = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c} ({d}%)'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 10,
+                    data: ['内存交换(G)']
+                },
+                series: [
+                    {
+                        name: '',
+                        type: 'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center',
+                                formatter: '{a|{a}}{abg|} {b|{b}：}{c}',
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '30',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data: [{}]
+                    }
+                ]
+            };
+         if (option7 && typeof option7 === "object") {
+            myChart7.setOption(option7, true);
+        }
+
+
+
+        //检测窗口变化 重新加载echarts
+        $(window).resize(function() {
+            var window_width = $(window).width();//获取浏览器窗口宽度
+            //myChart1.resize();
+            //myChart2.resize();
+            //myChart3.resize();
+            //myChart4.resize();
+            //myChart5.resize();
+            //myChart6.resize();
+        });
+
+    </script>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<!-- Bootstrap css -->
+    <link href="../../static/js/bklib/bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <!-- kendo ui css -->
+    <link href="../../static/js/bklib/kendoui-2015.2.624/styles/kendo.common.min.css" rel="stylesheet">
+    <link href="../../static/js/bklib/kendoui-2015.2.624/styles/kendo.default.min.css" rel="stylesheet">
+    <!-- font-awesome -->
+    <link href="../../static/js/bklib/fontawesome-4.3.0/css/font-awesome.css" rel="stylesheet">
+    <!--蓝鲸提供的公用样式库 -->
+    <link href="../../static/js/bklib/css/bk.css" rel="stylesheet">
+    <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+    <script src="../../static/js/bklib/jquery-1.10.2/jquery-1.10.2.min.js"></script>
+    <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="../../static/js/bklib/echarts-2.0/echarts-all.js"></script>
+
+    <script src="../../static/js/bklib/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <!-- 包括所有kendoui的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="../../static/js/bklib/kendoui-2015.2.624/js/kendo.all.min.js"></script>
+
+    <link href="../../static/js/bklib/css/css-pro/bk.css" rel="stylesheet">
+    <link href="../../static/js/bklib/css/iconfont.css" rel="stylesheet">
+    <script src="../../static/js/bklib/bkDropdownMenu-1.0/bkDropdownMenu-1.0/js/bkDropdownMenu.js"></script>
+    <script src="../../static/js/bklib/datatables-1.10.7/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="../../static/js/bklib/datatables-1.10.7/dataTables.bootstrap.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../../static/X-admin/css/font.css">
+    <link rel="stylesheet" href="../../static/X-admin/css/xadmin.css">
+    <link rel="stylesheet" href="../../static/X-admin/css/font.css">
+
+<style>
+    .list-value{
+        float: left;
+        margin-left: 2%;
+    }
+    .clear{
+        clear:both;
+    }
+</style>
+<body>
+<div class="king-content-wrap">
+    <div style="height: 10px"></div>
+    <div>
+        <div style="float: left">
+            <label>主机: </label><span id="host" ></span>
+        </div>
+        <div class="list-value">
+            <label>主机名: </label><span id="hostName" ></span>
+        </div>
+        <div class="list-value">
+            <label>IP地址: </label><span id="ipAddress" ></span>
+        </div>
+        <div class="list-value">
+            <label>OS类型: </label><span id="osType" ></span>
+        </div>
+        <div class="list-value">
+            <label>运行时间: </label><span id="runTime" ></span>
+        </div>
+        <div class="list-value">
+            <label>主机状态: </label><span id="hostStatus" ></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="king-tab tab-box ">
+        <br>
+        <div class="bk-dropdown-menu" id="bk-dropdown-menu4">
+
+            <button class="bk-button bk-primary bk-dropdown-trigger">
+                <span>显示时间</span>
+                <i class="bk-icon icon-angle-down icon-flip"></i>
+            </button>
+
+            <div class="bk-dropdown-content left-align is-show" style="top: 39px;">
+                <ul class="bk-dropdown-list">
+                    <li>
+                        <a href="javascript:loadtime(0.5);"><i class="bk-icon icon-heart icon-flip"></i>最近半小时</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;loadtime(2)"><i class="bk-icon icon-heart icon-flip"></i>最近两小时</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;loadtime(168)"><i class="bk-icon icon-heart icon-flip"></i>最近7天</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;loadtime(360)"><i class="bk-icon icon-heart icon-flip"></i>最近15天</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content ">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-body" style="min-height: 295px;">
+                            <div id="cpuUsage" class="layui-col-sm12" style="height: 310px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-body" style="min-height: 295px;">
+                            <div id="memoryUsage" class="layui-col-sm12" style="height: 310px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-body" style="min-height: 295px;">
+                            <div id="networkTraffic" class="layui-col-sm12" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-body" style="min-height: 295px;">
+                            <div id="diskUtilization" class="layui-col-sm12" style="height: 300px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body" style="min-height: 295px;">
+                            <div id="diskIO" class="layui-col-sm12" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body" style="min-height: 295px;">
+                            <div id="process" class="layui-col-sm12" style="height: 300px;">
+                                <div>
+                                    <h3 class="king-block-title" style="color:#00FFFF ;font-size: 20px">告警信息日志</h3>
+                                </div>
+                                <table class="table table-striped" >
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%;">#</th>
+                                            <th style="width: 15%;">时间</th>
+                                            <th style="width: 10%;">严重性</th>
+                                            <th style="width: 10%;">恢复时间</th>
+                                            <th style="width: 10%;">状态</th>
+                                            <th style="width: 10%;">信息</th>
+                                            <th style="width: 10%;">主机</th>
+                                            <th style="width: 30%;">问题</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="warningMessage"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../../static/js/mgdapps/host_detailspage.js"></script>
+</html>
